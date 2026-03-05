@@ -1,0 +1,266 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{times}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{lipsum}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\geometry{margin=1in}
+\addbibresource{references.bib}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\titleformat{\chapter}
+  {\vspace{-2cm} \centering\bfseries\LARGE}
+  {\thechapter}{1em}{}
+
+\begin{document}
+
+\title{Software Requirements Specification \\ Vehicle Bidding System}
+\author{Navin}
+\date{\today}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\chapter{Introduction}
+\section{Purpose}
+This Software Requirements Specification (SRS) document defines the functional and non-functional requirements for the Vehicle Bidding System. It serves as a comprehensive guide for developers, stakeholders, and system architects to understand the system's capabilities, constraints, and design considerations.
+
+\section{Scope}
+The Vehicle Bidding System is a full-stack web-based application that enables users to buy and sell vehicles through an online bidding mechanism. The system includes:
+\begin{itemize}
+    \item User authentication and authorization (buyer, seller, admin)
+    \item Vehicle listing and catalog management
+    \item Real-time bidding system with Socket.io
+    \item Messaging system between buyers and sellers
+    \item Admin dashboard for vehicle verification and user management
+    \item Payment and transaction handling
+    \item Search and filter functionality
+\end{itemize}
+
+\section{Definitions, Acronyms, and Abbreviations}
+\begin{itemize}
+    \item \textbf{API} - Application Programming Interface
+    \item \textbf{CRUD} - Create, Read, Update, Delete
+    \item \textbf{UI} - User Interface
+    \item \textbf{JWT} - JSON Web Token
+    \item \textbf{NoSQL} - Non-relational database
+    \item \textbf{Socket.io} - Real-time bidirectional event-based communication
+    \item \textbf{REST} - Representational State Transfer
+    \item \textbf{SPA} - Single Page Application
+\end{itemize}
+
+\chapter{Overall Description}
+\section{Product Perspective}
+The Vehicle Bidding System is an independent web application accessed through modern web browsers. It consists of:
+\begin{itemize}
+    \item Frontend: React-based Single Page Application (SPA)
+    \item Backend: Node.js/Express REST API with real-time capabilities
+    \item Database: MongoDB for data persistence
+    \item Real-time Communication: Socket.io for live bidding
+\end{itemize}
+
+\section{Product Functions}
+\subsection{User Management}
+\begin{itemize}
+    \item User registration and authentication
+    \item Profile management
+    \item Role-based access control (buyer, seller, admin)
+    \item User verification and blacklisting
+\end{itemize}
+
+\subsection{Vehicle Management}
+\begin{itemize}
+    \item Vehicle listing creation by sellers
+    \item Vehicle information management (specifications, documents, images)
+    \item Vehicle search and filtering
+    \item Vehicle status tracking (Available, Sold)
+    \item Admin verification of vehicle listings
+\end{itemize}
+
+\subsection{Bidding System}
+\begin{itemize}
+    \item Real-time bid placement
+    \item Automatic highest bid tracking
+    \item Bid history management
+    \item Bid validation and conflict resolution
+    \item Winning bid determination
+\end{itemize}
+
+\subsection{Communication}
+\begin{itemize}
+    \item Real-time messaging between buyers and sellers
+    \item Message history
+    \item Notification system
+\end{itemize}
+
+\subsection{Admin Functions}
+\begin{itemize}
+    \item Dashboard with system statistics
+    \item Vehicle verification workflow
+    \item User management and blacklisting
+    \item Report generation
+    \item System monitoring
+\end{itemize}
+
+\section{User Characteristics}
+\subsection{Buyers}
+\begin{itemize}
+    \item Browse vehicle listings
+    \item Place bids on vehicles
+    \item Message sellers for inquiries
+    \item View bidding history
+    \item Complete purchases
+\end{itemize}
+
+\subsection{Sellers}
+\begin{itemize}
+    \item Create vehicle listings
+    \item Upload vehicle images and documents
+    \item Monitor bids on their vehicles
+    \item Respond to buyer inquiries
+    \item Manage sold vehicles
+\end{itemize}
+
+\subsection{Administrators}
+\begin{itemize}
+    \item Verify vehicle listings
+    \item Manage user accounts
+    \item Monitor system activity
+    \item Generate reports
+    \item Manage disputes and complaints
+\end{itemize}
+
+\chapter{Specific Requirements}
+
+\section{Functional Requirements}
+
+\subsection{User Authentication}
+\begin{itemize}
+    \item \textbf{FR1.1:} System shall provide user registration with email, name, mobile, and password
+    \item \textbf{FR1.2:} System shall validate email uniqueness during registration
+    \item \textbf{FR1.3:} System shall support JWT-based authentication
+    \item \textbf{FR1.4:} System shall maintain secure session management
+    \item \textbf{FR1.5:} System shall allow password reset functionality
+\end{itemize}
+
+\subsection{Vehicle Listing Management}
+\begin{itemize}
+    \item \textbf{FR2.1:} Sellers shall create vehicle listings with required details (brand, model, year, price, etc.)
+    \item \textbf{FR2.2:} System shall support multiple image uploads for vehicles
+    \item \textbf{FR2.3:} System shall store document references (RC, Insurance, PUC)
+    \item \textbf{FR2.4:} System shall track vehicle status (Available, Sold, Hidden)
+    \item \textbf{FR2.5:} Admin shall verify vehicle listings before publication
+    \item \textbf{FR2.6:} System shall support vehicle editing by sellers (before bidding)
+    \item \textbf{FR2.7:} System shall support vehicle deletion by sellers (before bidding)
+\end{itemize}
+
+\subsection{Search and Browsing}
+\begin{itemize}
+    \item \textbf{FR3.1:} System shall provide search functionality by brand, model, year, price range
+    \item \textbf{FR3.2:} System shall support filtering by vehicle category, fuel type, transmission
+    \item \textbf{FR3.3:} System shall display vehicle details with images and specifications
+    \item \textbf{FR3.4:} System shall show current highest bid and bidding status
+\end{itemize}
+
+\subsection{Bidding System}
+\begin{itemize}
+    \item \textbf{FR4.1:} System shall allow registered users to place bids on vehicles
+    \item \textbf{FR4.2:} System shall prevent bids lower than current highest bid
+    \item \textbf{FR4.3:} System shall use real-time Socket.io for bid updates
+    \item \textbf{FR4.4:} System shall track bid history with timestamps
+    \item \textbf{FR4.5:} System shall prevent sellers from bidding on own vehicles
+    \item \textbf{FR4.6:} System shall notify relevant users of new bids in real-time
+    \item \textbf{FR4.7:} System shall determine winning bid when auction ends
+\end{itemize}
+
+\subsection{Messaging System}
+\begin{itemize}
+    \item \textbf{FR5.1:} System shall allow authenticated users to send messages
+    \item \textbf{FR5.2:} System shall maintain message history between users
+    \item \textbf{FR5.3:} System shall use real-time Socket.io for message delivery
+    \item \textbf{FR5.4:} System shall support message read status tracking
+\end{itemize}
+
+\subsection{Admin Dashboard}
+\begin{itemize}
+    \item \textbf{FR6.1:} Admin shall view system statistics (users, vehicles, bids)
+    \item \textbf{FR6.2:} Admin shall verify or reject vehicle listings
+    \item \textbf{FR6.3:} Admin shall manage user blacklisting
+    \item \textbf{FR6.4:} Admin shall view and generate reports
+    \item \textbf{FR6.5:} Admin shall access system logs and activity monitoring
+\end{itemize}
+
+\section{Non-Functional Requirements}
+
+\subsection{Performance}
+\begin{itemize}
+    \item \textbf{NFR1.1:} System shall respond to user requests within 2 seconds
+    \item \textbf{NFR1.2:} System shall support concurrent bidding by 1000+ users
+    \item \textbf{NFR1.3:} Real-time bid updates shall have latency < 100ms
+    \item \textbf{NFR1.4:} Search queries shall return results within 1 second
+\end{itemize}
+
+\subsection{Security}
+\begin{itemize}
+    \item \textbf{NFR2.1:} All passwords shall be hashed using bcrypt
+    \item \textbf{NFR2.2:} API endpoints shall be protected with JWT authentication
+    \item \textbf{NFR2.3:} System shall use CORS for cross-origin requests
+    \item \textbf{NFR2.4:} Sensitive data shall not be logged
+    \item \textbf{NFR2.5:} System shall use HTTPS for all communications
+\end{itemize}
+
+\subsection{Reliability}
+\begin{itemize}
+    \item \textbf{NFR3.1:} System uptime shall be 99.5\%
+    \item \textbf{NFR3.2:} Database backups shall be performed daily
+    \item \textbf{NFR3.3:} System shall gracefully handle connection failures
+\end{itemize}
+
+\subsection{Usability}
+\begin{itemize}
+    \item \textbf{NFR4.1:} UI shall be responsive and work on mobile and desktop
+    \item \textbf{NFR4.2:} System shall provide clear error messages
+    \item \textbf{NFR4.3:} Navigation shall be intuitive with consistent design
+\end{itemize}
+
+\subsection{Maintainability}
+\begin{itemize}
+    \item \textbf{NFR5.1:} Code shall follow consistent naming conventions
+    \item \textbf{NFR5.2:} All functions shall be documented with comments
+    \item \textbf{NFR5.3:} System shall use modular architecture
+\end{itemize}
+
+\chapter{System Architecture}
+The system follows a three-tier architecture:
+\begin{itemize}
+    \item \textbf{Presentation Layer:} React frontend with responsive UI
+    \item \textbf{Application Layer:} Express.js REST API with Socket.io
+    \item \textbf{Data Layer:} MongoDB database with optimized schemas
+\end{itemize}
+
+\chapter{Technology Stack}
+\begin{itemize}
+    \item \textbf{Frontend:} React.js, HTML5, CSS3, JavaScript ES6+
+    \item \textbf{Backend:} Node.js, Express.js, Socket.io
+    \item \textbf{Database:} MongoDB with Mongoose ODM
+    \item \textbf{Authentication:} JWT (JSON Web Tokens)
+    \item \textbf{Real-time Communication:} Socket.io
+    \item \textbf{Build Tools:} Vite, npm
+\end{itemize}
+
+\chapter{Conclusion}
+This SRS document provides a comprehensive overview of the Vehicle Bidding System's requirements, functionality, and technical specifications. It serves as a reference for all stakeholders to ensure the system is developed according to the specified requirements and quality standards.
+
+\end{document}

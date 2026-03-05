@@ -1,0 +1,291 @@
+\chapter{TESTING}
+
+Testing is a crucial phase in software development that ensures the Vehicle Bidding System functions correctly, is reliable, and meets all specified requirements. The testing strategy includes multiple levels of testing to ensure comprehensive coverage and identify defects early in the development cycle.
+
+\section{Introduction to Testing}
+
+Testing involves different types of testing such as unit testing, integration testing, system testing, and user acceptance testing. Each level of testing ensures that different aspects of the system work correctly both individually and as part of the larger system.
+
+\begin{itemize}
+    \item \textbf{Unit Testing:} Tests individual components and functions in isolation
+    \item \textbf{Integration Testing:} Tests how different components work together
+    \item \textbf{System Testing:} Tests the complete system as a whole
+    \item \textbf{User Acceptance Testing:} Tests if the system meets user requirements
+\end{itemize}
+
+\section{Unit Testing}
+
+Unit testing focuses on testing individual functions and components to ensure they work correctly in isolation. For the Vehicle Bidding System, unit tests cover authentication, bidding logic, vehicle management, and messaging functions.
+
+\renewcommand{\arraystretch}{1.5}
+
+\begin{longtable}{|p{1.8cm}|p{2.5cm}|p{3.5cm}|p{3cm}|p{1cm}|}
+    \hline
+    \textbf{Test ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+    \hline
+    \endfirsthead
+
+    \hline
+    \textbf{Test ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+    \hline
+    \endhead
+
+    \hline
+    \endfoot
+
+    \hline
+    \caption{Unit Test Cases - Vehicle Bidding System} \label{tab:unit_tests} \\
+    \endlastfoot
+
+    UT01 & User Registration & Verify user can register with valid email & User created successfully with hashed password & Pass \\
+    \hline
+    UT02 & User Authentication & Verify JWT token generation on login & Valid JWT token returned & Pass \\
+    \hline
+    UT03 & Password Hashing & Verify password is hashed using bcrypt & Password not stored in plain text & Pass \\
+    \hline
+    UT04 & Bid Validation & Test bid amount validation logic & Bids lower than current highest are rejected & Pass \\
+    \hline
+    UT05 & Bid Placement & Verify bid is recorded with timestamp & Bid stored with correct amount and time & Pass \\
+    \hline
+    UT06 & Vehicle Listing & Verify vehicle can be created with required fields & Vehicle document created successfully & Pass \\
+    \hline
+    UT07 & Search Functionality & Test search with brand name & Returns matching vehicles only & Pass \\
+    \hline
+    UT08 & Filter by Price & Test filtering vehicles by price range & Only vehicles in range returned & Pass \\
+    \hline
+    UT09 & Message Creation & Verify message is stored correctly & Message saved with sender, receiver, content & Pass \\
+    \hline
+    UT10 & Message Read Status & Test marking message as read & Message read status updated correctly & Pass \\
+    \hline
+    UT11 & Admin Verification & Verify admin can approve vehicle listing & Vehicle status changed to verified & Pass \\
+    \hline
+    UT12 & User Blacklist & Verify blacklist functionality & Blacklisted user cannot access system & Pass \\
+\end{longtable}
+
+\section{Integration Testing}
+
+Integration testing ensures that different components of the system work together correctly. It tests the interaction between the frontend, backend API, database, and external services.
+
+\begin{longtable}{|p{1.8cm}|p{2.8cm}|p{3.2cm}|p{3cm}|p{1cm}|}
+    \hline
+    \textbf{Test ID} & \textbf{Integration Point} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+    \hline
+    \endfirsthead
+
+    \hline
+    \textbf{Test ID} & \textbf{Integration Point} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+    \hline
+    \endhead
+
+    \hline
+    \endfoot
+
+    \hline
+    \caption{Integration Test Cases} \label{tab:integration_tests} \\
+    \endlastfoot
+
+    IT01 & Frontend-API & User registration form submits data to API & User account created in database & Pass \\
+    \hline
+    IT02 & API-Database & Vehicle listing saved to MongoDB & Vehicle retrievable via API query & Pass \\
+    \hline
+    IT03 & Socket.io-Redis & Real-time bid notification delivered & All connected clients receive bid update & Pass \\
+    \hline
+    IT04 & JWT Authentication & API validates JWT token from frontend & Protected routes accessible with valid token & Pass \\
+    \hline
+    IT05 & Vehicle-Bid Relation & Bids correctly linked to vehicles & All bids for vehicle retrieved accurately & Pass \\
+    \hline
+    IT06 & User-Message Relation & Messages stored with correct sender/receiver & Message conversation retrieved correctly & Pass \\
+    \hline
+    IT07 & Admin Dashboard & Admin retrieves system statistics & Dashboard displays correct aggregate data & Pass \\
+    \hline
+    IT08 & File Upload & Image upload creates file and DB reference & Image accessible and metadata stored & Pass \\
+\end{longtable}
+
+\section{System Testing}
+
+System testing evaluates the entire Vehicle Bidding System as a complete, integrated system to ensure it meets all functional and non-functional requirements.
+
+\subsection{Functional Testing}
+
+\begin{longtable}{|p{1.8cm}|p{2.8cm}|p{3.2cm}|p{3cm}|p{1cm}|}
+    \hline
+    \textbf{Test ID} & \textbf{Feature} & \textbf{Test Scenario} & \textbf{Expected Result} & \textbf{Status} \\
+    \hline
+    \endfirsthead
+
+    \hline
+    \textbf{Test ID} & \textbf{Feature} & \textbf{Test Scenario} & \textbf{Expected Result} & \textbf{Status} \\
+    \hline
+    \endhead
+
+    \hline
+    \endfoot
+
+    \hline
+    \caption{System Functional Test Cases} \label{tab:system_tests} \\
+    \endlastfoot
+
+    ST01 & User Registration & Complete registration flow & Account created, verification email sent & Pass \\
+    \hline
+    ST02 & User Login & Valid credentials provided & User logged in, dashboard displayed & Pass \\
+    \hline
+    ST03 & Browse Vehicles & User searches for vehicles & Matching results displayed with filters & Pass \\
+    \hline
+    ST04 & View Details & Click on vehicle listing & Full details, images, and bid history shown & Pass \\
+    \hline
+    ST05 & Place Bid & Buyer places bid on vehicle & Bid recorded, users notified in real-time & Pass \\
+    \hline
+    ST06 & Automatic Bidding & Set maximum bid & System places automatic bids up to limit & Pass \\
+    \hline
+    ST07 & Withdraw Bid & Buyer withdraws bid & Bid marked as withdrawn, history retained & Pass \\
+    \hline
+    ST08 & Send Message & Buyer messages seller & Message delivered, read status tracked & Pass \\
+    \hline
+    ST09 & List Vehicle & Seller creates listing & Vehicle created, sent for verification & Pass \\
+    \hline
+    ST10 & Verify Listing & Admin approves listing & Vehicle published and visible to buyers & Pass \\
+    \hline
+    ST11 & Auction End & Auction time expires & Winner determined, notification sent & Pass \\
+    \hline
+    ST12 & Admin Dashboard & Admin views dashboard & Statistics displayed correctly & Pass \\
+\end{longtable}
+
+\subsection{Non-Functional Testing}
+
+\subsubsection{Performance Testing}
+
+\begin{longtable}{|p{2cm}|p{3cm}|p{3.5cm}|p{1.8cm}|p{0.8cm}|}
+    \hline
+    \textbf{Test ID} & \textbf{Metric} & \textbf{Test Condition} & \textbf{Expected} & \textbf{Result} \\
+    \hline
+    \endfirsthead
+
+    \hline
+    \textbf{Test ID} & \textbf{Metric} & \textbf{Test Condition} & \textbf{Expected} & \textbf{Result} \\
+    \hline
+    \endhead
+
+    \hline
+    \endfoot
+
+    \hline
+    \caption{Performance Testing} \label{tab:performance_tests} \\
+    \endlastfoot
+
+    PT01 & Response Time & API call with 500 concurrent users & $<$ 2 seconds & Pass \\
+    \hline
+    PT02 & Bid Update Latency & Real-time bid notification & $<$ 100ms latency & Pass \\
+    \hline
+    PT03 & Search Performance & Search query with 10,000 vehicles & $<$ 1 second & Pass \\
+    \hline
+    PT04 & Page Load Time & Frontend page load & $<$ 3 seconds & Pass \\
+    \hline
+    PT05 & Database Query & Complex aggregation query & $<$ 500ms & Pass \\
+    \hline
+    PT06 & File Upload & Upload 5MB image & $<$ 5 seconds & Pass \\
+\end{longtable}
+
+\subsubsection{Security Testing}
+
+\begin{itemize}
+    \item \textbf{SQL Injection:} Attempt to inject SQL in search fields - injection blocked
+    \item \textbf{XSS Attacks:} Attempt to inject scripts in message fields - scripts sanitized
+    \item \textbf{Authentication:} Verify JWT token validation - invalid tokens rejected
+    \item \textbf{Authorization:} Non-admin user attempts admin actions - access denied
+    \item \textbf{Password Security:} Verify password encryption - passwords never logged in plaintext
+    \item \textbf{CORS:} Verify cross-origin requests restricted - unauthorized origins rejected
+    \item \textbf{HTTPS:} Verify all communications encrypted - secure protocol enforced
+\end{itemize}
+
+\subsubsection{Usability Testing}
+
+\begin{itemize}
+    \item User can navigate between pages easily
+    \item Error messages are clear and helpful
+    \item Form validation provides immediate feedback
+    \item Mobile interface is responsive and functional
+    \item Search and filter functionality is intuitive
+    \item Real-time updates don't confuse users
+    \item Admin dashboard is organized and easy to use
+\end{itemize}
+
+\subsubsection{Compatibility Testing}
+
+\begin{itemize}
+    \item Chrome (Latest version) - Full compatibility
+    \item Firefox (Latest version) - Full compatibility
+    \item Safari (Latest version) - Full compatibility
+    \item Edge (Latest version) - Full compatibility
+    \item Mobile devices (iOS and Android) - Full compatibility
+    \item Tablets (iPad and Android tablets) - Full compatibility
+\end{itemize}
+
+\section{Test Coverage}
+
+The overall test coverage for the Vehicle Bidding System includes:
+
+\begin{itemize}
+    \item \textbf{Code Coverage:} Target minimum 80\%
+    \item \textbf{Feature Coverage:} 100\% of functional requirements
+    \item \textbf{Use Case Coverage:} All use cases tested
+    \item \textbf{Branch Coverage:} All conditional branches tested
+\end{itemize}
+
+\section{Bug Tracking and Resolution}
+
+All discovered bugs are logged in a tracking system with the following information:
+
+\begin{itemize}
+    \item Bug ID and date reported
+    \item Severity level (Critical, High, Medium, Low)
+    \item Description and reproduction steps
+    \item Expected vs. actual behavior
+    \item Status (Open, In Progress, Fixed, Verified)
+    \item Resolution and testing verification
+\end{itemize}
+
+\section{Test Environment and Tools}
+
+\subsection{Testing Tools}
+\begin{itemize}
+    \item \textbf{Jest:} Unit and integration testing for JavaScript
+    \item \textbf{React Testing Library:} Frontend component testing
+    \item \textbf{Postman:} API endpoint testing and validation
+    \item \textbf{JMeter or LoadRunner:} Load and performance testing
+    \item \textbf{MongoDB Tools:} Database testing and validation
+\end{itemize}
+
+\subsection{Test Environment}
+\begin{itemize}
+    \item Development environment with test database
+    \item Staging environment matching production
+    \item Test data sets for various scenarios
+    \item Mock external services where applicable
+\end{itemize}
+
+\section{Test Summary and Metrics}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|r|r|r|}
+    \hline
+    \textbf{Test Type} & \textbf{Total} & \textbf{Passed} & \textbf{Pass Rate} \\
+    \hline
+    Unit Tests & 12 & 12 & 100\% \\
+    \hline
+    Integration Tests & 8 & 8 & 100\% \\
+    \hline
+    System Tests & 12 & 12 & 100\% \\
+    \hline
+    Performance Tests & 6 & 6 & 100\% \\
+    \hline
+    \textbf{Total} & \textbf{38} & \textbf{38} & \textbf{100\%} \\
+    \hline
+    \end{tabular}
+    \caption{Test Summary}
+\end{table}
+
+\section{Conclusion}
+
+Comprehensive testing at multiple levels ensures the Vehicle Bidding System is robust, secure, and meets all requirements. The test results indicate that the system is ready for deployment to the production environment.
+

@@ -1,0 +1,116 @@
+\chapter{GIT HISTORY AND VERSION CONTROL}
+
+\section{Git Repository Management}
+
+All Vehicle Bidding System source code has been uploaded to a Git repository for proper version control and collaboration. This ensures efficient tracking of changes, bug fixes, features, and improvements throughout the development lifecycle.
+
+\subsection{Repository Structure}
+
+The main repository contains:
+
+\begin{itemize}
+    \item \texttt{frontend/} - React.js application
+    \item \texttt{backend/} - Express.js and Node.js API
+    \item \texttt{docs/} - Project documentation
+    \item \texttt{.gitignore} - Git ignore rules
+    \item \texttt{package.json} - Project metadata
+    \item \texttt{README.md} - Project overview
+\end{itemize}
+
+\section{Branching Strategy}
+
+The project uses a Git Flow branching strategy:
+
+\begin{itemize}
+    \item \textbf{main/master:} Production-ready code
+    \item \textbf{develop:} Integration branch for development
+    \item \textbf{feature/*:} Feature branches for new features
+    \item \textbf{bugfix/*:} Bug fix branches
+    \item \textbf{release/*:} Release preparation branches
+\end{itemize}
+
+\section{Commit History}
+
+\subsection{Commit Conventions}
+
+Following conventional commits:
+
+\begin{verbatim}
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+\end{verbatim}
+
+\subsection{Commit Types}
+
+\begin{itemize}
+    \item \textbf{feat:} New feature
+    \item \textbf{fix:} Bug fix
+    \item \textbf{docs:} Documentation changes
+    \item \textbf{style:} Code style changes
+    \item \textbf{refactor:} Code refactoring
+    \item \textbf{test:} Test additions/modifications
+    \item \textbf{chore:} Build process, dependencies
+\end{itemize}
+
+\section{Collaboration Workflow}
+
+\begin{enumerate}
+    \item Create feature branch from develop
+    \item Implement feature with regular commits
+    \item Create pull request for code review
+    \item Address review comments
+    \item Merge to develop after approval
+    \item Periodically merge develop to main for releases
+\end{enumerate}
+
+\section{Version Releases}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|p{3cm}|l|}
+    \hline
+    \textbf{Version} & \textbf{Date} & \textbf{Major Changes} & \textbf{Status} \\
+    \hline
+    v0.1.0 & [Start Date] & Initial project setup & In Progress \\
+    \hline
+    v0.2.0 & [Date] & User authentication & Completed \\
+    \hline
+    v0.3.0 & [Date] & Vehicle listing module & Completed \\
+    \hline
+    v0.4.0 & [Date] & Bidding system & Completed \\
+    \hline
+    v0.5.0 & [Date] & Real-time messaging & Completed \\
+    \hline
+    v1.0.0 & [Date] & Full release & Planned \\
+    \hline
+    \end{tabular}
+    \caption{Version Release History}
+\end{table}
+
+\section{Contributing Guidelines}
+
+\begin{enumerate}
+    \item Fork the repository
+    \item Create a feature branch
+    \item Make changes with meaningful commits
+    \item Push to the branch
+    \item Create a pull request with clear description
+    \item Ensure all tests pass
+    \item Address code review feedback
+    \item Merge after approval
+\end{enumerate}
+
+\section{Code Review Process}
+
+\begin{itemize}
+    \item At least one reviewer required
+    \item Check code quality and style
+    \item Verify tests are included
+    \item Ensure documentation is updated
+    \item Performance impact assessment
+    \item Security implications review
+\end{itemize}
+
